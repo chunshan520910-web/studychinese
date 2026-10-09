@@ -1,1 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Học Ngoại Ngữ Cùng Mình</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    header { background: #2563eb; color: white; padding: 2rem; text-align: center; }
+    nav { background: #1e40af; padding: 1rem; text-align: center; }
+    nav a { color: white; margin: 0 1rem; text-decoration: none; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    main { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+    section { margin-bottom: 3rem; }
+    h2 { color: #1e40af; margin-bottom: 1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+    
+    /* Thẻ từ vựng lật */
+    .card { 
+      width: 250px; height: 150px; margin: 10px; display: inline-block;
+      cursor: pointer; perspective: 1000px;
+    }
+    .card-inner { 
+      position: relative; width: 100%; height: 100%;
+      transition: transform 0.5s; transform-style: preserve-3d;
+    }
+    .card.flipped .card-inner { transform: rotateY(180deg); }
+    .front, .back { 
+      position: absolute; width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 12px; backface-visibility: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .front { background: #3b82f6; color: white; font-size: 1.3rem; }
+    .back { background: #f0fdf4; border: 2px solid #86efac; transform: rotateY(180deg); font-size: 1.1rem; }
+    
+    /* Bài tập */
+    .quiz { background: #fef3c7; padding: 1.5rem; border-radius: 12px; margin: 1rem 0; }
+    button { background: #2563eb; color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 8px; cursor: pointer; margin: 0.3rem; }
+    button:hover { background: #1d4ed8; }
+    .dap-an { margin-top: 1rem; font-weight: bold; display: none; }
+    .hien { display: block; color: #16a34a; }
+    
+    footer { background: #f3f4f6; text-align: center; padding: 2rem; margin-top: 3rem; }
+  </style>
+</head>
+<body>
 
+<header>
+  <h1>🌍 Học Ngoại Ngữ Cùng Mình</h1>
+  <p>Dự án học tập — Rèn luyện ngôn ngữ mỗi ngày</p>
+</header>
+
+<nav>
+  <a href="#home">Trang Chủ</a>
+  <a href="#vocab">Từ Vựng</a>
+  <a href="#grammar">Ngữ Pháp</a>
+  <a href="#practice">Bài Tập</a>
+</nav>
+
+<main>
+  <!-- Từ vựng lật -->
+  <section id="vocab">
+    <h2>📚 Từ Vựng Thường Dùng</h2>
+    <p>Nhấn vào thẻ để xem nghĩa 🖱️</p>
+    
+    <div class="card" onclick="this.classList.toggle('flipped')">
+      <div class="card-inner">
+        <div class="front">Hello</div>
+        <div class="back">Xin chào</div>
+      </div>
+    </div>
+    
+    <div class="card" onclick="this.classList.toggle('flipped')">
+      <div class="card-inner">
+        <div class="front">Thank you</div>
+        <div class="back">Cảm ơn</div>
+      </div>
+    </div>
+    
+    <div class="card" onclick="this.classList.toggle('flipped')">
+      <div class="card-inner">
+        <div class="front">Goodbye</div>
+        <div class="back">Tạm biệt</div>
+      </div>
+    </div>
+    
+    <div class="card" onclick="this.classList.toggle('flipped')">
+      <div class="card-inner">
+        <div class="front">Love</div>
+        <div class="back">Yêu thương</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ngữ pháp -->
+  <section id="grammar">
+    <h2>📖 Ngữ Pháp Cơ Bản</h2>
+    <h3>Thì Hiện Tại Đơn</h3>
+    <p>Diễn tả sự thật, thói quen, hành động thường xuyên xảy ra.</p>
+    <pre style="background:#f3f4f6; padding:1rem; border-radius:8px; margin:1rem 0;">
+Khẳng định: S + V(s/es)
+Phủ định: S + do/does + not + V
+Nghi vấn: Do/Does + S + V?
+
+Ví dụ:
+- I study English. (Tôi học tiếng Anh)
+- She speaks Vietnamese. (Cô ấy nói tiếng Việt)
+    </pre>
+  </section>
+
+  <!-- Bài tập -->
+  <section id="practice">
+    <h2>✍️ Bài Tập</h2>
+    
+    <div class="quiz">
+      <p><b>Câu 1:</b> ______ you like English?</p>
+      <button onclick="hienDapAn(1)">A. Do</button>
+      <button onclick="hienDapAn(1)">B. Does</button>
+      <button onclick="hienDapAn(1)">C. Are</button>
+      <div id="dapan1" class="dap-an">✅ Đáp án đúng: A. Do</div>
+    </div>
+    
+    <div class="quiz">
+      <p><b>Câu 2:</b> She ______ to school every day.</p>
+      <button onclick="hienDapAn(2)">A. go</button>
+      <button onclick="hienDapAn(2)">B. goes</button>
+      <button onclick="hienDapAn(2)">C. going</button>
+      <div id="dapan2" class="dap-an">✅ Đáp án đúng: B. goes</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>📚 Dự án học tập Ngoại Ngữ — Năm 2026</p>
+  <p>Thực hiện bởi: [Tên bạn]</p>
+</footer>
+
+<script>
+function hienDapAn(so) {
+  document.getElementById('dapan' + so).classList.add('hien');
+}
+</script>
+
+</body>
+</html>
