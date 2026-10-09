@@ -1,143 +1,838 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Học Ngoại Ngữ Cùng Mình</title>
+  <title>Học Tiếng Trung HSK1–HSK6</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-    header { background: #2563eb; color: white; padding: 2rem; text-align: center; }
-    nav { background: #1e40af; padding: 1rem; text-align: center; }
-    nav a { color: white; margin: 0 1rem; text-decoration: none; font-weight: bold; }
-    nav a:hover { text-decoration: underline; }
-    main { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
-    section { margin-bottom: 3rem; }
-    h2 { color: #1e40af; margin-bottom: 1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
-    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    :root {
+      --red: #d32f2f;
+      --gold: #ffc107;
+      --light: #fff8e1;
+      --dark: #4e342e;
+      --green: #2e7d32;
+      --blue: #1976d2;
+    }
+
+    body {
+      background: #fffdf5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--red), #b71c1c);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 1.1rem;
+    }
+
+    nav {
+      background: var(--dark);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    nav a {
+      display: block;
+      color: white;
+      padding: 0.9rem 1.2rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    nav a:hover, nav a.active {
+      background: var(--gold);
+      color: #212121;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+      padding-top: 1rem;
+    }
+
+    h2 {
+      color: var(--red);
+      font-size: 1.8rem;
+      border-bottom: 3px solid var(--gold);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .level-tab {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .level-btn {
+      padding: 0.7rem 1.3rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      background: #e0e0e0;
+      transition: all 0.3s;
+    }
+
+    .level-btn.active {
+      background: var(--red);
+      color: white;
+    }
+
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
     /* Thẻ từ vựng lật */
-    .card { 
-      width: 250px; height: 150px; margin: 10px; display: inline-block;
-      cursor: pointer; perspective: 1000px;
+    .card {
+      height: 160px;
+      perspective: 1000px;
+      cursor: pointer;
     }
-    .card-inner { 
-      position: relative; width: 100%; height: 100%;
-      transition: transform 0.5s; transform-style: preserve-3d;
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
     }
-    .card.flipped .card-inner { transform: rotateY(180deg); }
-    .front, .back { 
-      position: absolute; width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 12px; backface-visibility: hidden;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
     }
-    .front { background: #3b82f6; color: white; font-size: 1.3rem; }
-    .back { background: #f0fdf4; border: 2px solid #86efac; transform: rotateY(180deg); font-size: 1.1rem; }
-    
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      backface-visibility: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .card-front {
+      background: linear-gradient(135deg, var(--red), #c62828);
+      color: white;
+    }
+
+    .card-back {
+      background: var(--light);
+      border: 2px solid #ffd54f;
+      transform: rotateY(180deg);
+    }
+
+    .char {
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+
+    .pinyin {
+      font-size: 1rem;
+      opacity: 0.9;
+      font-style: italic;
+    }
+
+    .meaning {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--dark);
+      text-align: center;
+    }
+
+    .example {
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      color: #666;
+      text-align: center;
+    }
+
     /* Bài tập */
-    .quiz { background: #fef3c7; padding: 1.5rem; border-radius: 12px; margin: 1rem 0; }
-    button { background: #2563eb; color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 8px; cursor: pointer; margin: 0.3rem; }
-    button:hover { background: #1d4ed8; }
-    .dap-an { margin-top: 1rem; font-weight: bold; display: none; }
-    .hien { display: block; color: #16a34a; }
-    
-    footer { background: #f3f4f6; text-align: center; padding: 2rem; margin-top: 3rem; }
+    .quiz-box {
+      background: #f9fbe7;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin: 1rem 0;
+      border-left: 4px solid var(--green);
+    }
+
+    .quiz-question {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-option {
+      padding: 0.8rem 1.2rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: white;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--blue);
+      background: #e3f2fd;
+    }
+
+    .quiz-option.correct {
+      border-color: var(--green);
+      background: #e8f5e9;
+    }
+
+    .quiz-option.wrong {
+      border-color: #e53935;
+      background: #ffebee;
+    }
+
+    .answer-result {
+      margin-top: 1rem;
+      font-weight: bold;
+      display: none;
+    }
+
+    .answer-result.show {
+      display: block;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: #e0e0e0;
+      border-radius: 5px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), #66bb6a);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    footer {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+
+    .hidden-content {
+      display: none;
+    }
+
+    .active-content {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>🌍 Học Ngoại Ngữ Cùng Mình</h1>
-  <p>Dự án học tập — Rèn luyện ngôn ngữ mỗi ngày</p>
+  <h1>🇨🇳 Học Tiếng Trung HSK 1 → HSK 6</h1>
+  <p>Từ cơ bản đến nâng cao — Luyện thi HSK toàn diện</p>
 </header>
 
 <nav>
-  <a href="#home">Trang Chủ</a>
-  <a href="#vocab">Từ Vựng</a>
-  <a href="#grammar">Ngữ Pháp</a>
-  <a href="#practice">Bài Tập</a>
+  <ul>
+    <li><a href="#home" class="nav-link active" data-target="section-home">Trang Chủ</a></li>
+    <li><a href="#vocab" class="nav-link" data-target="section-vocab">Từ Vựng</a></li>
+    <li><a href="#grammar" class="nav-link" data-target="section-grammar">Ngữ Pháp</a></li>
+    <li><a href="#practice" class="nav-link" data-target="section-practice">Bài Tập</a></li>
+    <li><a href="#progress" class="nav-link" data-target="section-progress">Tiến Độ</a></li>
+  </ul>
 </nav>
 
 <main>
-  <!-- Từ vựng lật -->
-  <section id="vocab">
-    <h2>📚 Từ Vựng Thường Dùng</h2>
-    <p>Nhấn vào thẻ để xem nghĩa 🖱️</p>
+  <!-- Trang Chủ -->
+  <section id="section-home" class="content-section active-content">
+    <h2>👋 Chào Mừng Bạn</h2>
+    <p style="font-size:1.1rem; margin-bottom:1.5rem;">Trang web này được tạo như dự án học tập, giúp bạn học Tiếng Trung từ cấp độ sơ cấp HSK1 đến cao cấp HSK6.</p>
     
-    <div class="card" onclick="this.classList.toggle('flipped')">
-      <div class="card-inner">
-        <div class="front">Hello</div>
-        <div class="back">Xin chào</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:1rem; margin:2rem 0;">
+      <div style="background:#fff3e0; padding:1.5rem; border-radius:12px; text-align:center;">
+        <h3 style="color:#e65100; font-size:1.5rem;">HSK 1</h3>
+        <p>150 từ vựng<br>Nền tảng giao tiếp cơ bản</p>
+      </div>
+      <div style="background:#e8f5e9; padding:1.5rem; border-radius:12px; text-align:center;">
+        <h3 style="color:#2e7d32; font-size:1.5rem;">HSK 2</h3>
+        <p>300 từ vựng<br>Giao tiếp hàng ngày</p>
+      </div>
+      <div style="background:#e3f2fd; padding:1.5rem; border-radius:12px; text-align:center;">
+        <h3 style="color:#1565c0; font-size:1.5rem;">HSK 3</h3>
+        <p>600 từ vựng<br>Trình độ trung cấp</p>
+      </div>
+      <div style="background:#f3e5f5; padding:1.5rem; border-radius:12px; text-align:center;">
+        <h3 style="color:#7b1fa2; font-size:1.5rem;">HSK 4</h3>
+        <p>1200 từ vựng<br>Sử dụng thành thạo</p>
+      </div>
+      <div style="background:#eceff1; padding:1.5rem; border-radius:12px; text-align:center;">
+        <h3 style="color:#455a64; font-size:1.5rem;">HSK 5</h3>
+        <p>2500 từ vựng<br>Đọc hiểu & viết nâng cao</p>
+      </div>
+      <div style="background:#fbe9e7; padding:1.5rem; border-radius:12px; text-align:center;">
+        <h3 style="color:#d84315; font-size:1.5rem;">HSK 6</h3>
+        <p>5000+ từ vựng<br>Gần với người bản xứ</p>
       </div>
     </div>
     
-    <div class="card" onclick="this.classList.toggle('flipped')">
-      <div class="card-inner">
-        <div class="front">Thank you</div>
-        <div class="back">Cảm ơn</div>
+    <p>👉 Chuyển mục <strong>Từ Vựng</strong> để bắt đầu học ngay!</p>
+  </section>
+
+  <!-- Từ Vựng -->
+  <section id="section-vocab" class="content-section hidden-content">
+    <h2>📚 Từ Vựng Theo Cấp Độ HSK</h2>
+    
+    <div class="level-tab">
+      <button class="level-btn active" data-level="hsk1">HSK 1</button>
+      <button class="level-btn" data-level="hsk2">HSK 2</button>
+      <button class="level-btn" data-level="hsk3">HSK 3</button>
+      <button class="level-btn" data-level="hsk4">HSK 4</button>
+      <button class="level-btn" data-level="hsk5">HSK 5</button>
+      <button class="level-btn" data-level="hsk6">HSK 6</button>
+    </div>
+
+    <!-- HSK 1 -->
+    <div class="vocab-content" id="hsk1">
+      <p style="margin-bottom:1rem;">Nhấn vào thẻ để xem nghĩa 🖱️ — Tổng: 150 từ (dưới đây là ví dụ)</p>
+      <div class="vocab-grid">
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">你</span><span class="pinyin">nǐ</span></div>
+            <div class="card-back"><span class="meaning">Bạn</span><span class="example">Nǐ hǎo — Xin chào</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">好</span><span class="pinyin">hǎo</span></div>
+            <div class="card-back"><span class="meaning">Tốt, khỏe</span><span class="example">Hěn hǎo — Rất tốt</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">我</span><span class="pinyin">wǒ</span></div>
+            <div class="card-back"><span class="meaning">Tôi/Tớ</span><span class="example">Wǒ shì học sinh — Tôi là học sinh</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">是</span><span class="pinyin">shì</span></div>
+            <div class="card-back"><span class="meaning">Là</span><span class="example">Tā shì giáo viên — Cô ấy là giáo viên</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">谢</span><span class="pinyin">xiè</span></div>
+            <div class="card-back"><span class="meaning">Cảm ơn</span><span class="example">Xièxie — Cảm ơn</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">见</span><span class="pinyin">jiàn</span></div>
+            <div class="card-back"><span class="meaning">Gặp, xem</span><span class="example">Zài jiàn — Tạm biệt</span></div>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <div class="card" onclick="this.classList.toggle('flipped')">
-      <div class="card-inner">
-        <div class="front">Goodbye</div>
-        <div class="back">Tạm biệt</div>
+
+    <!-- HSK 2 -->
+    <div class="vocab-content hidden-content" id="hsk2">
+      <p style="margin-bottom:1rem;">Nhấn vào thẻ để xem nghĩa 🖱️ — Tổng: 300 từ</p>
+      <div class="vocab-grid">
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">学习</span><span class="pinyin">xuéxí</span></div>
+            <div class="card-back"><span class="meaning">Học tập</span><span class="example">Wǒ xuéxí Hànyǔ — Tôi học tiếng Trung</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">朋友</span><span class="pinyin">péngyou</span></div>
+            <div class="card-back"><span class="meaning">Bạn bè</span><span class="example">Tā shì wǒ de péngyou — Anh ấy là bạn tôi</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">喜欢</span><span class="pinyin">xǐhuan</span></div>
+            <div class="card-back"><span class="meaning">Thích</span><span class="example">Wǒ xǐhuan chī fàn — Tôi thích ăn cơm</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">今天</span><span class="pinyin">jīntiān</span></div>
+            <div class="card-back"><span class="meaning">Hôm nay</span><span class="example">Jīntiān tiānqì hǎo — Thời tiết hôm nay đẹp</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">明天</span><span class="pinyin">míngtiān</span></div>
+            <div class="card-back"><span class="meaning">Ngày mai</span><span class="example">Míngtiān wǒ qù xuéxiào — Ngày mai tôi đi học</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">时间</span><span class="pinyin">shíjiān</span></div>
+            <div class="card-back"><span class="meaning">Thời gian</span><span class="example">Méiyǒu shíjiān — Không có thời gian</span></div>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <div class="card" onclick="this.classList.toggle('flipped')">
-      <div class="card-inner">
-        <div class="front">Love</div>
-        <div class="back">Yêu thương</div>
+
+    <!-- HSK 3 -->
+    <div class="vocab-content hidden-content" id="hsk3">
+      <p style="margin-bottom:1rem;">Nhấn vào thẻ để xem nghĩa 🖱️ — Tổng: 600 từ</p>
+      <div class="vocab-grid">
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">帮助</span><span class="pinyin">bāngzhù</span></div>
+            <div class="card-back"><span class="meaning">Giúp đỡ</span><span class="example">Xièxie nǐ de bāngzhù — Cảm ơn sự giúp đỡ của bạn</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">经验</span><span class="pinyin">jīngyàn</span></div>
+            <div class="card-back"><span class="meaning">Kinh nghiệm</span><span class="example">Hěn yǒu jīngyàn — Rất có kinh nghiệm</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">努力</span><span class="pinyin">nǔlì</span></div>
+            <div class="card-back"><span class="meaning">Cố gắng</span><span class="example">Nǔlì xuéxí — Cố gắng học tập</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">旅行</span><span class="pinyin">lǚxíng</span></div>
+            <div class="card-back"><span class="meaning">Du lịch</span><span class="example">Wǒ xǐhuan lǚxíng — Tôi thích du lịch</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">开始</span><span class="pinyin">kāishǐ</span></div>
+            <div class="card-back"><span class="meaning">Bắt đầu</span><span class="example">Kāishǐ shàngkè — Bắt đầu vào lớp</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">结束</span><span class="pinyin">jiéshù</span></div>
+            <div class="card-back"><span class="meaning">Kết thúc</span><span class="example">Kè jiéshù le — Lớp học đã kết thúc</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HSK 4 -->
+    <div class="vocab-content hidden-content" id="hsk4">
+      <p style="margin-bottom:1rem;">Nhấn vào thẻ để xem nghĩa 🖱️ — Tổng: 1200 từ</p>
+      <div class="vocab-grid">
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">重要</span><span class="pinyin">zhòngyào</span></div>
+            <div class="card-back"><span class="meaning">Quan trọng</span><span class="example">Zhè hěn zhòngyào — Điều này rất quan trọng</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">发展</span><span class="pinyin">fāzhǎn</span></div>
+            <div class="card-back"><span class="meaning">Phát triển</span><span class="example">Zhōngguó fāzhǎn hěn kuài — Trung Quốc phát triển nhanh</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">机会</span><span class="pinyin">jīhuì</span></div>
+            <div class="card-back"><span class="meaning">Cơ hội</span><span class="example">Zhè ge hǎo jīhuì — Đây là cơ hội tốt</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">了解</span><span class="pinyin">liǎojiě</span></div>
+            <div class="card-back"><span class="meaning">Hiểu, tìm hiểu</span><span class="example">Wǒ xiǎng liǎojiě — Tôi muốn hiểu rõ</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">影响</span><span class="pinyin">yǐngxiǎng</span></div>
+            <div class="card-back"><span class="meaning">Ảnh hưởng</span><span class="example">Shòu dào hǎo de yǐngxiǎng — Nhận ảnh hưởng tốt</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">提高</span><span class="pinyin">tígāo</span></div>
+            <div class="card-back"><span class="meaning">Nâng cao</span><span class="example">Tígāo shuǐpíng — Nâng cao trình độ</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HSK 5 -->
+    <div class="vocab-content hidden-content" id="hsk5">
+      <p style="margin-bottom:1rem;">Nhấn vào thẻ để xem nghĩa 🖱️ — Tổng: 2500 từ</p>
+      <div class="vocab-grid">
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">规划</span><span class="pinyin">guīhuà</span></div>
+            <div class="card-back"><span class="meaning">Kế hoạch, quy hoạch</span><span class="example">Zhíyè guīhuà — Kế hoạch nghề nghiệp</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">竞争</span><span class="pinyin">jìngzhēng</span></div>
+            <div class="card-back"><span class="meaning">Cạnh tranh</span><span class="example">Shìchǎng jìngzhēng — Cạnh tranh thị trường</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">普遍</span><span class="pinyin">pǔbiàn</span></div>
+            <div class="card-back"><span class="meaning">Phổ biến</span><span class="example">Zhè hěn pǔbiàn — Điều này rất phổ biến</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">责任</span><span class="pinyin">zérèn</span></div>
+            <div class="card-back"><span class="meaning">Trách nhiệm</span><span class="example">Fù zérèn — Chịu trách nhiệm</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">依据</span><span class="pinyin">yījù</span></div>
+            <div class="card-back"><span class="meaning">Dựa trên, căn cứ</span><span class="example">Yījù guīdìng — Căn cứ theo quy định</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">完善</span><span class="pinyin">wánshàn</span></div>
+            <div class="card-back"><span class="meaning">Hoàn thiện</span><span class="example">Wánshàn jìdù — Hoàn thiện chế độ</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HSK 6 -->
+    <div class="vocab-content hidden-content" id="hsk6">
+      <p style="margin-bottom:1rem;">Nhấn vào thẻ để xem nghĩa 🖱️ — Tổng: 5000+ từ</p>
+      <div class="vocab-grid">
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">典范</span><span class="pinyin">diǎnfàn</span></div>
+            <div class="card-back"><span class="meaning">Khuôn mẫu, tấm gương</span><span class="example">Shì yí dài diǎnfàn — Là tấm gương một đời</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">磋商</span><span class="pinyin">cuōshāng</span></div>
+            <div class="card-back"><span class="meaning">Thương lượng, đàm phán</span><span class="example">Jīngguò duō cì cuōshāng — Sau nhiều lần đàm phán</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">摒弃</span><span class="pinyin">bìngqì</span></div>
+            <div class="card-back"><span class="meaning">Loại bỏ, từ bỏ</span><span class="example">Bìngqì jiù guānniàn — Từ bỏ quan niệm cũ</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">瞩目</span><span class="pinyin">zhǔmù</span></div>
+            <div class="card-back"><span class="meaning">Được chú ý</span><span class="example">Chéngjiù lìng rén zhǔmù — Thành tựu đáng chú ý</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">熏陶</span><span class="pinyin">xūntáo</span></div>
+            <div class="card-back"><span class="meaning">Dạy dỗ, ảnh hưởng sâu</span><span class="example">Shòu jiātíng xūntáo — Dưới ảnh hưởng gia đình</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front"><span class="char">缔造</span><span class="pinyin">dìzào</span></div>
+            <div class="card-back"><span class="meaning">Xây dựng, tạo nên</span><span class="example">Dìzào héxié shèhuì — Xây dựng xã hội hòa bình</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Ngữ pháp -->
-  <section id="grammar">
-    <h2>📖 Ngữ Pháp Cơ Bản</h2>
-    <h3>Thì Hiện Tại Đơn</h3>
-    <p>Diễn tả sự thật, thói quen, hành động thường xuyên xảy ra.</p>
-    <pre style="background:#f3f4f6; padding:1rem; border-radius:8px; margin:1rem 0;">
-Khẳng định: S + V(s/es)
-Phủ định: S + do/does + not + V
-Nghi vấn: Do/Does + S + V?
+  <!-- Ngữ Pháp -->
+  <section id="section-grammar" class="content-section hidden-content">
+    <h2>📖 Ngữ Pháp Theo Cấp Độ</h2>
+    
+    <h3 style="color:#d32f2f; margin:1.5rem 0 0.5rem;">HSK 1 — Cơ bản</h3>
+    <pre style="background:#fff3e0; padding:1rem; border-radius:8px; margin-bottom:1rem; overflow-x:auto;">
+Cấu trúc chính:
+- Câu khẳng định: Chủ ngữ + Định ngữ + Vị ngữ → Wǒ shì Zhōngguó rén (Tôi là người Trung Quốc)
+- Câu nghi vấn thêm ma: Câu + ma → Nǐ hǎo ma? (Bạn khỏe không?)
+- Số thứ tự: dì + số → dì yī (thứ nhất)
+    </pre>
 
-Ví dụ:
-- I study English. (Tôi học tiếng Anh)
-- She speaks Vietnamese. (Cô ấy nói tiếng Việt)
+    <h3 style="color:#2e7d32; margin:1.5rem 0 0.5rem;">HSK 2 — Giao tiếp hàng ngày</h3>
+    <pre style="background:#e8f5e9; padding:1rem; border-radius:8px; margin-bottom:1rem; overflow-x:auto;">
+- Động từ có: yǒu → Wǒ yǒu péngyou (Tôi có bạn bè)
+- Thời gian: Trạng ngữ thời gian đứng trước động từ → Wǒ jīntiān qù xuéxiào (Hôm nay tôi đi học)
+- Động từ lái/qù: Nǐ lái Zhōngguó ma? (Bạn đến Trung Quốc phải không?)
+- Cấu trúc "de": Chī de dōngxi (Thứ để ăn)
+    </pre>
+
+    <h3 style="color:#1565c0; margin:1.5rem 0 0.5rem;">HSK 3 — Trung cấp</h3>
+    <pre style="background:#e3f2fd; padding:1rem; border-radius:8px; margin-bottom:1rem; overflow-x:auto;">
+- Bổ ngữ kết quả: kàn dǒng (đọc hiểu), tīng qīngng (nghe rõ)
+- Bổ ngữ hướng: zǒu jìn (đi vào), pǎo chūlái (chạy ra)
+- Thứ tự: xiān... ránhòu... (trước... sau đó...)
+- Biểu hiện sự biến đổi: biàn dé... → Biàn dé gèng hǎo (Trở nên tốt hơn)
+- Cấu trúc "bèi": Bèi dǎpò (Bị phá vỡ)
+    </pre>
+
+    <h3 style="color:#7b1fa2; margin:1.5rem 0 0.5rem;">HSK 4 — Thành thạo</h3>
+    <pre style="background:#f3e5f5; padding:1rem; border-radius:8px; margin-bottom:1rem; overflow-x:auto;">
+- Bổ ngữ mức độ: Shuō dé hěn hǎo (Nói rất tốt)
+- Giả định: Rúguǒ... jiù... (Nếu... thì...)
+- Đối比: Yuè lái yuè... (Ngày càng...)
+- Cấu trúc "shì... de": Shì wǒ xiě de (Là do tôi viết)
+- Biểu hiện mục đích: Wèi le... (Để...)
+    </pre>
+
+    <h3 style="color:#455a64; margin:1.5rem 0 0.5rem;">HSK 5 — Nâng cao</h3>
+    <pre style="background:#eceff1; padding:1rem; border-radius:8px; margin-bottom:1rem; overflow-x:auto;">
+- Cấu trúc song trọng: Yuè... yuè... (Càng... càng...)
+- Giải thích nguyên nhân: Yóuyú... suǒyǐ... (Do... nên...)
+- Thể hiện quan hệ: Jí shǐ... yě... (Dù... cũng...)
+- Bổ ngữ khả năng: Kàn dé jiàn (nhìn thấy) / Kàn bú jiàn (không thấy)
+- Cấu trúc bị động đa dạng: Wèi... suǒ...
+    </pre>
+
+    <h3 style="color:#d84315; margin:1.5rem 0 0.5rem;">HSK 6 — Cao cấp</h3>
+    <pre style="background:#fbe9e7; padding:1rem; border-radius:8px; margin-bottom:1rem; overflow-x:auto;">
+- Cấu trúc văn ngôn hiện đại: Suǒwèi (cái gọi là), jí shì (tức là)
+- Liên từ phức tạp: Búdàn... érqiě... (Không những... mà còn...)
+- Biểu hiện sự suy luận: Jìrán... jiù... (Đã... thì...)
+- Cấu trúc nhấn mạnh: Wúyí shì... (Không nghi ngờ gì là...)
+- Cách diễn đạt trang trọng: Yǐ, jí, yú, hū
     </pre>
   </section>
 
-  <!-- Bài tập -->
-  <section id="practice">
-    <h2>✍️ Bài Tập</h2>
+  <!-- Bài Tập -->
+  <section id="section-practice" class="content-section hidden-content">
+    <h2>✍️ Bài Tập Kiểm Tra</h2>
     
-    <div class="quiz">
-      <p><b>Câu 1:</b> ______ you like English?</p>
-      <button onclick="hienDapAn(1)">A. Do</button>
-      <button onclick="hienDapAn(1)">B. Does</button>
-      <button onclick="hienDapAn(1)">C. Are</button>
-      <div id="dapan1" class="dap-an">✅ Đáp án đúng: A. Do</div>
+    <div class="quiz-box" data-answer="A">
+      <p class="quiz-question">Câu 1: "Nǐ hǎo" có nghĩa là gì?</p>
+      <div class="quiz-options">
+        <div class="quiz-option" data-opt="A">A. Xin chào</div>
+        <div class="quiz-option" data-opt="B">B. Tạm biệt</div>
+        <div class="quiz-option" data-opt="C">C. Cảm ơn</div>
+      </div>
+      <div class="answer-result" style="color:green;">✅ Đúng rồi! "Nǐ hǎo" = Xin chào</div>
+      <div class="answer-result" style="color:red;">❌ Sai rồi, đáp án đúng là A</div>
+    </div>
+
+    <div class="quiz-box" data-answer="B">
+      <p class="quiz-question">Câu 2: Chọn từ có nghĩa là "bạn bè"?</p>
+      <div class="quiz-options">
+        <div class="quiz-option" data-opt="A">A. xuéshēng</div>
+        <div class="quiz-option" data-opt="B">B. péngyou</div>
+        <div class="quiz-option" data-opt="C">C. lǎoshī</div>
+      </div>
+      <div class="answer-result" style="color:green;">✅ Đúng rồi! "péngyou" = bạn bè</div>
+      <div class="answer-result" style="color:red;">❌ Sai rồi, đáp án đúng là B</div>
+    </div>
+
+    <div class="quiz-box" data-answer="C">
+      <p class="quiz-question">Câu 3: "Tā xuéxí Hàn yǔ" có nghĩa là gì?</p>
+      <div class="quiz-options">
+        <div class="quiz-option" data-opt="A">A. Anh ấy dạy tiếng Trung</div>
+        <div class="quiz-option" data-opt="B">B. Anh ấy nói tiếng Trung</div>
+        <div class="quiz-option" data-opt="C">C. Anh ấy học tiếng Trung</div>
+      </div>
+      <div class="answer-result" style="color:green;">✅ Đúng rồi! "xuéxí" = học tập</div>
+      <div class="answer-result" style="color:red;">❌ Sai rồi, đáp án đúng là C</div>
+    </div>
+
+    <div class="quiz-box" data-answer="A">
+      <p class="quiz-question">Câu 4: Từ nào thuộc cấp độ HSK6?</p>
+      <div class="quiz-options">
+        <div class="quiz-option" data-opt="A">A. 典范 (diǎnfàn)</div>
+        <div class="quiz-option" data-opt="B">B. 朋友 (péngyou)</div>
+        <div class="quiz-option" data-opt="C">C. 我 (wǒ)</div>
+      </div>
+      <div class="answer-result" style="color:green;">✅ Đúng rồi! "典范" là từ nâng cao HSK6</div>
+      <div class="answer-result" style="color:red;">❌ Sai rồi, đáp án đúng là A</div>
+    </div>
+  </section>
+
+  <!-- Tiến Độ -->
+  <section id="section-progress" class="content-section hidden-content">
+    <h2>📊 Theo Dõi Tiến Độ</h2>
+    
+    <p>Hoàn thành bài tập để cập nhật tiến độ học của bạn!</p>
+    
+    <div style="margin:2rem 0;">
+      <p><strong>Tổng số câu:</strong> <span id="total-q">4</span></p>
+      <p><strong>Đúng:</strong> <span id="correct-q">0</span></p>
+      <p><strong>Tỷ lệ:</strong> <span id="percent">0</span>%</p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
     </div>
     
-    <div class="quiz">
-      <p><b>Câu 2:</b> She ______ to school every day.</p>
-      <button onclick="hienDapAn(2)">A. go</button>
-      <button onclick="hienDapAn(2)">B. goes</button>
-      <button onclick="hienDapAn(2)">C. going</button>
-      <div id="dapan2" class="dap-an">✅ Đáp án đúng: B. goes</div>
-    </div>
+    <button onclick="resetProgress()" style="background:#757575; color:white; border:none; padding:0.7rem 1.5rem; border-radius:8px; cursor:pointer;">Làm lại từ đầu</button>
   </section>
 </main>
 
 <footer>
-  <p>📚 Dự án học tập Ngoại Ngữ — Năm 2026</p>
-  <p>Thực hiện bởi: [Tên bạn]</p>
+  <p>🇨🇳 Dự án Học Tiếng Trung — HSK1 đến HSK6</p>
+  <p style="margin-top:0.5rem;">Thực hiện bởi: [Tên bạn] — Năm 2026</p>
+  <p style="margin-top:0.5rem; font-size:0.9rem; opacity:0.7;">Nội dung tham khảo chuẩn HSK — Dành cho dự án học tập</p>
 </footer>
 
 <script>
-function hienDapAn(so) {
-  document.getElementById('dapan' + so).classList.add('hien');
+// === Điều hướng menu ===
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('.content-section');
+
+navLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    navLinks.forEach(l => l.classList.remove('active'));
+    sections.forEach(s => s.classList.remove('active-content'));
+    sections.forEach(s => s.classList.add('hidden-content'));
+    
+    link.classList.add('active');
+    const targetId = link.getAttribute('data-target');
+    document.getElementById(targetId).classList.remove('hidden-content');
+    document.getElementById(targetId).classList.add('active-content');
+  });
+});
+
+// === Chọn cấp độ HSK ===
+const levelBtns = document.querySelectorAll('.level-btn');
+const vocabContents = document.querySelectorAll('.vocab-content');
+
+levelBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    levelBtns.forEach(b => b.classList.remove('active'));
+    vocabContents.forEach(c => c.classList.add('hidden-content'));
+    
+    btn.classList.add('active');
+    const level = btn.getAttribute('data-level');
+    document.getElementById(level).classList.remove('hidden-content');
+  });
+});
+
+// === Bài tập & Tiến độ ===
+let correctCount = 0;
+let answered = new Set();
+
+document.querySelectorAll('.quiz-box').forEach(box => {
+  const answer = box.getAttribute('data-answer');
+  const options = box.querySelectorAll('.quiz-option');
+  
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (answered.has(box)) return;
+      answered.add(box);
+      
+      const selected = opt.getAttribute('data-opt');
+      const isCorrect = selected === answer;
+      
+      options.forEach(o => o.style.pointerEvents = 'none');
+      
+      if (isCorrect) {
+        opt.classList.add('correct');
+        correctCount++;
+        box.querySelectorAll('.answer-result')[0].classList.add('show');
+      } else {
+        opt.classList.add('wrong');
+        options.forEach(o => {
+          if (o.getAttribute('data-opt') === answer) o.classList.add('correct');
+        });
+        box.querySelectorAll('.answer-result')[1].classList.add('show');
+      }
+      
+      updateProgress();
+    });
+  });
+});
+
+function updateProgress() {
+  const total = document.querySelectorAll('.quiz-box').length;
+  const percent = Math.round((correctCount / total) * 100);
+  document.getElementById('correct-q').textContent = correctCount;
+  document.getElementById('percent').textContent = percent;
+  document.getElementById('progress-fill').style.width = percent + '%';
+}
+
+function resetProgress() {
+  correctCount = 0;
+  answered.clear();
+  document.querySelectorAll('.quiz-box').forEach(box => {
+    box.querySelectorAll('.quiz-option').forEach(o => {
+      o.style.pointerEvents = 'auto';
+      o.classList.remove('correct', 'wrong');
+    });
+    box.querySelectorAll('.answer-result').forEach(r => r.classList.remove('show'));
+  });
+  updateProgress();
 }
 </script>
 
